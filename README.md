@@ -1,4 +1,4 @@
-# Polybar Spotify Module
+# Polybar / DWM Spotify Module
 
 ![polybar-spotify-module](https://github.com/mihirlad55/polybar-spotify-module/raw/master/screenshots/capture2.png)
 
@@ -64,76 +64,12 @@ disown
 in a startup script should accomplish that.
 
 
-### Configuring Polybar
-Your polybar configuration file should be located at `.config/polybar/config`
+### Configuring SLstatus
+Go to the folder with the source code for slstatus(where it was compiled).
 
-First make sure IPC is enabled. The following should be in your configuration
-file under the `[bar/<your bar name>]` section:
+Next, add the spotify module into config.h:
 ```
-[bar/main]
-enable-ipc = true
-```
-
-If you plan to use icons for next/play/previous/pause buttons, make sure you
-add (and have installed) an icon font accordingly such as NerdFonts or
-FontAwesome under the `[bar/<your bar name>]` section:
-```
-[bar/main]
-font-1 = Font Awesome 5 Free:size=10;1
-```
-Note that the font is specified in modules as a 1-based index, so `font-1` is
-specified by `format-font = 2`.
-
-Next, add the following spotify modules:
-```
-[module/previous]
-type = custom/ipc
-format-font = 2
-; Default
-hook-0 = echo ""
-; When spotify active
-hook-1 = echo "Previous"
-click-left = "spotifyctl -q previous"
-
-
-[module/next]
-type = custom/ipc
-format-font = 2
-; Default
-hook-0 = echo ""
-; When spotify active
-hook-1 = echo "Next"
-click-left = "spotifyctl -q next"
-
-
-[module/playpause]
-type = custom/ipc
-format-font = 2
-; Default
-hook-0 = echo ""
-; Playing
-hook-1 = echo "Pause"
-; Paused
-hook-2 = echo "Play"
-click-left = "spotifyctl -q playpause"
-
-
-[module/spotify]
-type = custom/ipc
-; Default
-hook-0 = echo ""
-; Playing/paused show song name and artist
-hook-1 = spotifyctl -q status --format '%artist%: %title%'
-```
-You can replace the text for Pause/Play/Next/Previous with icons for each of
-the hooks.
-
-Lastly, make sure the new spotify modules are part of your bar. Make sure one of
-the following lines is part of your modules.
-```
-modules-center = spotify previous playpause next
-modules-left = spotify previous playpause next
-modules-right = spotify previous playpause next
+{ run_command, "%s", "spotifyctl -q status --format 'Now Playing: %title, %artist%'"},
 ```
 
 ## Status Formatting
